@@ -22,7 +22,80 @@ class Users(db.Model):
     username = db.Column(db.String(64))
     attribute = db.Column(db.String(64))
     op = db.Column(db.String(2))
+    password = db.Column('value', db.String(253))
+    
+    def __repr__():
+        return '<Radius {} {}>'.format(attribute, username)
+    
+class Clients(db.Model):
+    __tablename__ = 'nas'
+    id = db.Column(db.Integer , primary_key=True)
+    address = db.Column('nasname', db.String(128))
+    shortname = db.Column(db.String(32))
+    type = db.Column(db.String(32))
+    ports = db.Column(db.Integer)
+    secret = db.Column(db.String(60))
+    server = db.Column(db.String(64))
+    community = db.Column(db.String(50))
+    description = db.Column(db.String(200))
+    
+    def __repr__():
+        return '<Client {}>'.format(address)
+    
+class UserGroup(db.Model):
+    __tablename__ = 'radusergroup'
+    username = db.Column(db.String(64))
+    groupname = db.Column(db.String(64))
+    priority = db.Column(db.Integer)
+    
+    def __repr__():
+        return'<UserGroup: {} in {}>'.format(username, groupname)
+
+class PostAuth(db.Model):
+    __tablename__ = 'radpostauth'
+    id = db.Column(db.Integer , primary_key=True)
+    username = db.Column(db.String(64))
+    password = db.Column('pass', db.String(64))
+    reply = db.Column(db.String(32))
+    authdate = db.Column(db.DateTime)
+    
+class GroupReply(db.Model):
+    __tablename__ = 'radgroupreply'
+    id = db.Column(db.Integer , primary_key=True)
+    groupname = db.Column(db.String(64))
+    attribute = db.Column(db.String(64))
+    op = db.Column(db.String(2))
     value = db.Column(db.String(253))
     
+class Accounting(db.Model):
+    __tablename__ = 'radacct'
+    radacctid = db.Column(db.Integer , primary_key=True)
+    acctsessionid = db.Column(db.String(64))
+    acctuniqueid = db.Column(db.String(32))
+    username = db.Column(db.String(64))
+    groupname = db.Column(db.String(64))
+    realm = db.Column(db.String(64))
+    nasipaddress = db.Column(db.String(15))
+    nasportid = db.Column(db.String(15))
+    nasporttype = db.Column(db.String(32))
+    acctstarttime = db.Column(db.DateTime)
+    acctstoptime = db.Column(db.DateTime)
+    acctsessiontime = db.Column(db.Integer)
+    acctauthentic = db.Column(db.String(32))
+    connectinfo_start = db.Column(db.String(50))
+    connectinfo_stop = db.Column(db.String(50))
+    acctinputoctets = db.Column(db.Integer)
+    acctoutputoctets = db.Column(db.Integer)
+    calledstationid = db.Column(db.String(50))
+    callingstationid = db.Column(db.String(50))
+    acctterminatecause = db.Column(db.String(32))
+    servicetype = db.Column(db.String(32))
+    framedprotocol = db.Column(db.String(32))
+    framedipaddress = db.Column(db.String(15))
+    acctstartdelay = db.Column(db.Integer)
+    acctstopdelay = db.Column(db.Integer)
+    xascendsessionsvrkey = db.Column(db.String(10))
+    
+
 if __name__ == '__main__':
     app.run(debug = True)
