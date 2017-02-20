@@ -16,7 +16,8 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-class radcheck(db.Model):
+class Users(db.Model):
+    __tablename__ = 'radcheck'
     id = db.Column(db.Integer , primary_key=True)
     username = db.Column(db.String(64))
     attribute = db.Column(db.String(64))
