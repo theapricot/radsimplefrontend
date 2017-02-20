@@ -8,7 +8,9 @@ from sqlalchemy.schema import PrimaryKeyConstraint
 print("> Flask-login")
 from flask_login import LoginManager, login_user , logout_user , current_user , login_required
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from datetime import datetime
+from natural.date import duration
+#import locale
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://radius:radpass@localhost/radius'
@@ -17,6 +19,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
+#locale.setlocale(locale.LC_ALL, 'en_US')
 
 class Users(db.Model):
     __tablename__ = 'radcheck'
@@ -26,6 +29,12 @@ class Users(db.Model):
     op = db.Column(db.String(2))
     password = db.Column('value', db.String(253))
     
+    def __init__(self ,username , attribute, op, password):
+        self.username = username
+        self.attribute = attribute
+        self.op = op
+        self.password = password
+        
     def __repr__(self):
         return '<Radius {} {}>'.format(self.attribute, self.username)
     
@@ -66,6 +75,12 @@ class PostAuth(db.Model):
     
     def __repr__(self):
         return '<Auth: {}, {}>'.format(self.username, self.reply)
+        
+    def date(self):
+        return self.authdate.strftime('%H:%M %b %m %Y')
+        
+    def duration(self):
+        return duration(self.authdate)
     
 class GroupReply(db.Model):
     __tablename__ = 'radgroupreply'
@@ -104,6 +119,31 @@ class Accounting(db.Model):
     acctstopdelay = db.Column(db.Integer)
     xascendsessionsvrkey = db.Column(db.String(10))
     
+@app.route('/', methods = ['GET','POST'])
+def users():
+    users = Users.query.all()
+    if request.method == 'GET':
+        return render_template('users.html', users = users)
+    
+    if 'add' in request.form:
+        name = request.form['name']
+        pw = request.form['pass']
+        if name == '' or pw == '':
+            return redirect(url_for('users'))
+        else:
+            user = Users(name, 'User-Password', ':=', pw)
+            db.session.add(user)
+    elif 'delete' in request.form:
+        user = Users.query.get(int(request.form['name']))
+        db.session.delete(user)
+        db.session.commit()
 
+    return redirect(url_for('users'))
+
+@app.route('/accounting', methods = ['GET','POST'])
+def accounting():
+    access_log = PostAuth.query.order_by(desc(PostAuth.authdate)).all()
+    return render_template('accounting.html', access_log = access_log)
+    
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(debug = True, host="0.0.0.0", port=5000)

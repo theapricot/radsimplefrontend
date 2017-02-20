@@ -1,0 +1,28 @@
+{% extends "index.html" %}
+{% block body %}
+<h4 style="margin-top:20px">Access Log</h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Result</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in access_log %}
+    <tr>
+      <td>{{ item.username }}</td>
+      <td>
+        {% if item.reply == 'Access-Accept' %}
+        <span class="badge badge-pill badge-success">accept</span>
+        {% elif item.reply == 'Access-Reject' %}
+        <span class="badge badge-pill badge-danger">reject</span>
+        {% endif %}
+      </td>
+      <td><strong>{{ item.date() }}</strong> ({{ item.duration() }})</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
