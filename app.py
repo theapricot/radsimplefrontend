@@ -9,14 +9,14 @@ from flask_login import LoginManager, login_user , logout_user , current_user , 
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://radius:radpass@192.168.1.157/radius'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://radius:radpass@localhost/radius'
 app.config['SECRET_KEY'] = 'thesecret'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-class Users(db.Model):
+class radcheck(db.Model):
     id = db.Column(db.Integer , primary_key=True)
     username = db.Column(db.String(64))
     attribute = db.Column(db.String(64))
