@@ -4,9 +4,11 @@ from flask import Flask, session, flash, url_for, redirect, render_template, abo
 print("> Flask-sqlalchemy")
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import asc, desc
+from sqlalchemy.schema import PrimaryKeyConstraint
 print("> Flask-login")
 from flask_login import LoginManager, login_user , logout_user , current_user , login_required
 from werkzeug.security import generate_password_hash, check_password_hash
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://radius:radpass@localhost/radius'
