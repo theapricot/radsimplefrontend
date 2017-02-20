@@ -65,7 +65,7 @@ class PostAuth(db.Model):
     authdate = db.Column(db.DateTime
     
     def __repr__(self):
-        return'<Auth: {}, {}>'.format(username, reply)
+        return '<Auth: {}, {}>'.format(username, reply)
     
 class GroupReply(db.Model):
     __tablename__ = 'radgroupreply'
