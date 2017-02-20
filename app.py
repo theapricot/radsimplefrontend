@@ -62,7 +62,7 @@ class PostAuth(db.Model):
     username = db.Column(db.String(64))
     password = db.Column('pass', db.String(64))
     reply = db.Column(db.String(32))
-    authdate = db.Column(db.DateTime
+    authdate = db.Column(db.DateTime)
     
     def __repr__(self):
         return '<Auth: {}, {}>'.format(username, reply)
