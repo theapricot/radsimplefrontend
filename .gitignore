@@ -1,6 +1,10 @@
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
+# sqlite databases
+*.db
+
+# virtual environments
+/venv/*
+
+*.pyc
 
 # Folder config file
 Desktop.ini
