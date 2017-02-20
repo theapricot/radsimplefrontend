@@ -27,7 +27,7 @@ class Users(db.Model):
     password = db.Column('value', db.String(253))
     
     def __repr__(self):
-        return '<Radius {} {}>'.format(attribute, username)
+        return '<Radius {} {}>'.format(self.attribute, self.username)
     
 class Clients(db.Model):
     __tablename__ = 'nas'
@@ -42,7 +42,7 @@ class Clients(db.Model):
     description = db.Column(db.String(200))
     
     def __repr__(self):
-        return '<Client {}>'.format(address)
+        return '<Client {}>'.format(self.address)
     
 class UserGroup(db.Model):
     __tablename__ = 'radusergroup'
@@ -54,7 +54,7 @@ class UserGroup(db.Model):
     priority = db.Column(db.Integer)
     
     def __repr__(self):
-        return'<UserGroup: {} in {}>'.format(username, groupname)
+        return'<UserGroup: {} in {}>'.format(self.username, self.groupname)
 
 class PostAuth(db.Model):
     __tablename__ = 'radpostauth'
@@ -65,7 +65,7 @@ class PostAuth(db.Model):
     authdate = db.Column(db.DateTime)
     
     def __repr__(self):
-        return '<Auth: {}, {}>'.format(username, reply)
+        return '<Auth: {}, {}>'.format(self.username, self.reply)
     
 class GroupReply(db.Model):
     __tablename__ = 'radgroupreply'
