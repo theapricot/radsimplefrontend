@@ -44,6 +44,9 @@ class Clients(db.Model):
     
 class UserGroup(db.Model):
     __tablename__ = 'radusergroup'
+    __table_args__ = (
+        PrimaryKeyConstraint('username', 'groupname'),
+    )
     username = db.Column(db.String(64))
     groupname = db.Column(db.String(64))
     priority = db.Column(db.Integer)
